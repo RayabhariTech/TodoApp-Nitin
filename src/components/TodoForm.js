@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, isValidElement} from 'react'
 import TodoItem from './TodoItem'
 
 class TodoForm extends Component {
@@ -19,7 +19,7 @@ class TodoForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.state.todo === '') {
+        if (this.state.todo === '' || this.state.todo.trim() === '') {
             this.setState({errorMessage: "Enter a value"})
 
         } else {
@@ -37,28 +37,36 @@ class TodoForm extends Component {
     }
 
     displayTodoList = value => {
-        return (<div>{value.todo}</div>)
+        return (
+            <div>{value.todo}</div>
+        )
     }
 
-    handleTodoDelete = ind => {
-        const newData = this
-            .state
-            .todoList
-            .filter((todo, index) => index !== ind)
-        this.setState({todoList: newData})
+    handleTodoDelete = (value, ind) => {
+
+        const confirmMessage = window.confirm(`Are you sure, you want to delete :${value}`)
+        if (confirmMessage === true) {
+            const newData = this
+                .state
+                .todoList
+                .filter((todo, index) => index !== ind)
+            this.setState({todoList: newData})
+        }
     }
 
-    handleTodoEdit = (text, ind) => {
-        const newTodo = this
-            .state
-            .todoList
-            .map((item, index) => {
-                if (index === ind) {
-                    return item.todo = text
-                }
-            })
-        this.setState({todo: newTodo})
-    }
+    handleTodoEdit = (val,ind) => {
+        const newTodo=this.state.todoList.reverse().find((value,index)=> index===ind)
+        const newTodoRemove=this.state.todoList.reverse().filter((value,index)=>index!==ind)
+        this.setState({
+            todo:newTodo.todo
+        })
+
+        this.setState({
+            todoList:newTodoRemove
+        })
+       
+    };
+
 
     render() {
         return (
@@ -74,13 +82,13 @@ class TodoForm extends Component {
                             value={this.state.todo}
                             onChange={this.handleInputChange}
                             placeholder="Add Items"/>
-                        <button className='todo-add-button' onClick={this.handleSubmit}>Add</button>
+                        <button className='todo-add-button' onClick={this.handleSubmit}>+</button>
                         <span className='error-message'>{this.state.errorMessage}</span>
                     </div>
-
                     {this
                         .state
                         .todoList
+                        .reverse()
                         .map((value, index) => <TodoItem
                             key={index}
                             data={value}

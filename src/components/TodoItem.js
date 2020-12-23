@@ -5,7 +5,7 @@ export default class TodoItem extends Component {
     {
         super()
         this.state = {
-            isChecked: false,
+            isChecked: false
         }
     }
 
@@ -22,48 +22,71 @@ export default class TodoItem extends Component {
 
         this
             .props
-            .deleteTodo(this.props.index)
+            .deleteTodo(this.props.data.todo, this.props.index)
 
     }
 
-    handleEdit=()=>{
-        this.props.editTodo(this.props.data.todo,this.props.index)
+    handleEdit = () => {
+        this
+            .props
+            .editTodo(this.props.data.todo,this.props.index)
     }
-    
-    handleInput=e=>
-    {
+
+    handleInput = e => {
         this.setState({
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
-
     render() {
 
-        const style = {
+        const styleInput = {
             textDecoration: 'line-through',
             color: 'gray'
+        }
+
+        const styleDeleteBtn={
+            marginRight: '5%',
+            color: 'red',
+            border: "none",
+            zoom:'1.5',
+            cursor:'pointer'
+        }
+
+        const styleEditBtn={
+            color: 'green',
+            border: "none",
+            zoom:'1.5',
+            cursor:'pointer'
         }
 
         return (
             <div className='todo-list'>
                 <input
-                    type='checkbox'
-                    className='todo-checkbox'
-                    checked={this.state.isChecked}
-                    onChange={this.handleChange}/>
-
-                <input
                     className='todo-input-list'
                     style={this.state.isChecked
-                    ? style
+                    ? styleInput
                     : null}
                     type='text'
                     name='input'
                     value={this.props.data.todo}
                     onChange={this.handleInput}/>
-                <button className='todo-delete-button' onClick={this.handleDelete}>Delete</button>
-                <button className='todo-edit-button' onClick={this.handleEdit}>Edit</button>
+                    <input
+                    type='checkbox'
+                    className='todo-checkbox'
+                    checked={this.state.isChecked}
+                    onChange={this.handleChange}/>
+
+                <i
+                    style={styleDeleteBtn}
+                    className="far fa-trash-alt"
+                    onClick={this.handleDelete}></i>
+
+                <i
+                    style={styleEditBtn}
+                    className="fas fa-pen"
+                    type="button"
+                    onClick={this.handleEdit}></i>
             </div>
         )
     }
