@@ -29,7 +29,7 @@ export default class TodoItem extends Component {
     handleEdit = () => {
         this
             .props
-            .editTodo(this.props.data.todo,this.props.index)
+            .editTodo(this.props.data.todo, this.props.index)
     }
 
     handleInput = e => {
@@ -39,29 +39,34 @@ export default class TodoItem extends Component {
     }
 
     render() {
-
+        console.log(this.props.data)
         const styleInput = {
             textDecoration: 'line-through',
             color: 'gray'
         }
 
-        const styleDeleteBtn={
+        const styleDeleteBtn = {
             marginRight: '5%',
             color: 'red',
             border: "none",
-            zoom:'1.5',
-            cursor:'pointer'
+            zoom: '1.5',
+            cursor: 'pointer'
         }
 
-        const styleEditBtn={
+        const styleEditBtn = {
             color: 'green',
             border: "none",
-            zoom:'1.5',
-            cursor:'pointer'
+            zoom: '1.5',
+            cursor: 'pointer'
         }
 
         return (
             <div className='todo-list'>
+                <input
+                    type='checkbox'
+                    className='todo-checkbox'
+                    checked={this.state.isChecked}
+                    onChange={this.handleChange}/>
                 <input
                     className='todo-input-list'
                     style={this.state.isChecked
@@ -69,14 +74,10 @@ export default class TodoItem extends Component {
                     : null}
                     type='text'
                     name='input'
-                    value={this.props.data.todo}
+                    value={this.props.load.loading
+                    ? this.props.data.todo
+                    : this.props.data.list}
                     onChange={this.handleInput}/>
-                    <input
-                    type='checkbox'
-                    className='todo-checkbox'
-                    checked={this.state.isChecked}
-                    onChange={this.handleChange}/>
-
                 <i
                     style={styleDeleteBtn}
                     className="far fa-trash-alt"

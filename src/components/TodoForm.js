@@ -1,5 +1,7 @@
-import React, {Component, isValidElement} from 'react'
+import React, {Component} from 'react'
 import TodoItem from './TodoItem'
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class TodoForm extends Component {
     constructor()
@@ -8,7 +10,9 @@ class TodoForm extends Component {
         this.state = {
             todo: '',
             todoList: [],
-            errorMessage: ''
+            errorMessage: '',
+            loading: true,
+            list: ''
         }
     }
 
@@ -24,14 +28,16 @@ class TodoForm extends Component {
 
         } else {
             const newArrayList = [
-                ...this.state.todoList, {
+                {
                     todo: this.state.todo
-                }
+                },
+                ...this.state.todoList
             ]
 
             this.setState({todoList: newArrayList})
 
             this.setState({todo: '', errorMessage: ''})
+            this.setState({loading: true})
         }
 
     }
@@ -44,29 +50,61 @@ class TodoForm extends Component {
 
     handleTodoDelete = (value, ind) => {
 
-        const confirmMessage = window.confirm(`Are you sure, you want to delete :${value}`)
-        if (confirmMessage === true) {
-            const newData = this
-                .state
-                .todoList
-                .filter((todo, index) => index !== ind)
-            this.setState({todoList: newData})
-        }
+        const newData = this
+            .state
+            .todoList
+            .filter((todo, index) => index !== ind)
+        this.setState({todoList: newData})
     }
 
-    handleTodoEdit = (val,ind) => {
-        const newTodo=this.state.todoList.reverse().find((value,index)=> index===ind)
-        const newTodoRemove=this.state.todoList.reverse().filter((value,index)=>index!==ind)
-        this.setState({
-            todo:newTodo.todo
-        })
+    handleDelete = (value, index) => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: `Are you sure to do this ${value}`,
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.handleTodoDelete(value, index)
+                }, {
+                    label: 'No',
+                    onClick: () => console.log('No clicked')
+                }
+            ]
+        });
+    }
 
-        this.setState({
-            todoList:newTodoRemove
+    handleEdit = (val, ind) => {
+        const newTodo = this
+            .state
+            .todoList
+            .find((value, index) => index === ind)
+        // const newTodoRemove = this     .state     .todoList     .filter((value,
+        // index) => index === ind)
+        this.setState(preState => {
+            return {
+                loading: !preState.loading
+            }
         })
-       
+        this.setState({list: newTodo.todo})
+
     };
 
+    handleTodoEdit = (val, ind) => {
+        confirmAlert({
+            title: 'Confirm to Edit',
+            message: `Are you sure to Edit this ${val}`,
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.handleEdit(val, ind)
+                }, {
+                    label: 'No',
+                    onClick: () => console.log('No clicked')
+                }
+            ]
+        });
+
+    }
 
     render() {
         return (
@@ -88,17 +126,16 @@ class TodoForm extends Component {
                     {this
                         .state
                         .todoList
-                        .reverse()
                         .map((value, index) => <TodoItem
                             key={index}
                             data={value}
                             index={index}
+                            load={this.state}
                             displayTodoList={this.displayTodoList}
-                            deleteTodo={this.handleTodoDelete}
+                            deleteTodo={this.handleDelete}
                             editTodo={this.handleTodoEdit}/>)
 }
                 </div>
-
             </div>
         )
     }
