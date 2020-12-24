@@ -26,16 +26,14 @@ export default class TodoItem extends Component {
 
     }
 
-    handleEdit = () => {
-        this
-            .props
-            .editTodo(this.props.data.todo, this.props.index)
-    }
+    // handleEdit = () => {
+    //     this
+    //         .props
+    //         .editTodo(this.props.data.todo, this.props.index)
+    // }
 
     handleInput = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+        this.props.editTodo(e.target.value,this.props.index)
     }
 
     render() {

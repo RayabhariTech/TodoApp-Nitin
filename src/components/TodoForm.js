@@ -73,11 +73,17 @@ class TodoForm extends Component {
         });
     }
 
-    handleEdit = (val, ind) => {
+    handleTodoEdit = (val, ind) => {
         const newTodo = this
             .state
             .todoList
-            .find((value, index) => index === ind)
+            .map((value, index) =>{
+                if(index===ind)
+                {
+                    value.todo=val;
+                }
+            })
+            console.log(newTodo)
         // const newTodoRemove = this     .state     .todoList     .filter((value,
         // index) => index === ind)
         this.setState(preState => {
@@ -89,22 +95,6 @@ class TodoForm extends Component {
 
     };
 
-    handleTodoEdit = (val, ind) => {
-        confirmAlert({
-            title: 'Confirm to Edit',
-            message: `Are you sure to Edit this ${val}`,
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => this.handleEdit(val, ind)
-                }, {
-                    label: 'No',
-                    onClick: () => console.log('No clicked')
-                }
-            ]
-        });
-
-    }
 
     render() {
         return (
