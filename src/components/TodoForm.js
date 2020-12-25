@@ -10,7 +10,7 @@ class TodoForm extends Component {
         this.state = {
             todoList: [],
             errorMessage: '',
-            isEditing: false,
+            editing: false,
             currentItem: {
                 text: '',
                 key: ''
@@ -18,7 +18,7 @@ class TodoForm extends Component {
         }
     }
 
-    handleSubmit = (event) => {
+    handleTodoSubmit = (event) => {
         event.preventDefault();
         const items = this.state.currentItem;
         if (items.text === '' || items.text.trim() === '') {
@@ -27,7 +27,6 @@ class TodoForm extends Component {
             const newArrayList = [
                 items, ...this.state.todoList
             ]
-
             this.setState({
                 todoList: newArrayList,
                 errorMessage: '',
@@ -50,7 +49,6 @@ class TodoForm extends Component {
     }
 
     handleTodoDelete = (key) => {
-
         const newData = this
             .state
             .todoList
@@ -92,7 +90,7 @@ class TodoForm extends Component {
         })
     };
 
-    handleEdit = () => {
+    changeEditState = () => {
         this.setState(preState => {
             return {
                 editing: !preState.editing
@@ -114,14 +112,14 @@ class TodoForm extends Component {
                             value={this.state.currentItem.text}
                             onChange={this.handleInputChange}
                             placeholder="Add Items"/>
-                        <button className='todo-add-button' onClick={this.handleSubmit}>+</button>
+                        <button className='todo-add-button' onClick={this.handleTodoSubmit}>+</button>
                         <span className='error-message'>{this.state.errorMessage}</span>
                     </div>
                     <TodoItem
                         todoList={this.state.todoList}
                         deleteTodo={this.handleDelete}
                         editTodo={this.handleTodoEdit}
-                        changeState={this.handleEdit}/>
+                        changeEditState={this.changeEditState}/>
                 </div>
             </div>
         )
