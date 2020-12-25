@@ -8,102 +8,96 @@ class TodoForm extends Component {
     {
         super()
         this.state = {
-            todo: '',
             todoList: [],
             errorMessage: '',
-            loading: true,
-            list: ''
+            isEditing: false,
+            currentItem: {
+                text: '',
+                key: ''
+            }
         }
-    }
-
-    handleInputChange = (event) => {
-        this.setState({todo: event.target.value})
-
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.state.todo === '' || this.state.todo.trim() === '') {
+        const items = this.state.currentItem;
+        if (items.text === '' || items.text.trim() === '') {
             this.setState({errorMessage: "Enter a value"})
-
         } else {
             const newArrayList = [
-                {
-                    todo: this.state.todo
-                },
-                ...this.state.todoList
+                items, ...this.state.todoList
             ]
 
-            this.setState({todoList: newArrayList})
-
-            this.setState({todo: '', errorMessage: ''})
-            this.setState({loading: true})
+            this.setState({
+                todoList: newArrayList,
+                errorMessage: '',
+                currentItem: {
+                    text: '',
+                    key: ''
+                }
+            })
         }
+    }
+
+    handleInputChange = (event) => {
+        this.setState({
+            currentItem: {
+                text: event.target.value,
+                key: Date.now()
+            }
+        })
 
     }
 
-    displayTodoList = value => {
-        return (
-            <div>{value.todo}</div>
-        )
-    }
-
-    handleTodoDelete = (value, ind) => {
+    handleTodoDelete = (key) => {
 
         const newData = this
             .state
             .todoList
-            .filter((todo, index) => index !== ind)
+            .filter(item => item.key !== key)
         this.setState({todoList: newData})
     }
 
-    handleDelete = (value, index) => {
+    handleDelete = (value, key) => {
         confirmAlert({
             title: 'Confirm to delete',
             message: `Are you sure to do this ${value}`,
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => this.handleTodoDelete(value, index)
+                    onClick: () => this.handleTodoDelete(key)
                 }, {
                     label: 'No',
-                    onClick: () => console.log('No clicked')
+                    onClick: () => {}
                 }
             ]
         });
     }
 
-    handleEdit = (val, ind) => {
-        const newTodo = this
-            .state
-            .todoList
-            .find((value, index) => index === ind)
-        // const newTodoRemove = this     .state     .todoList     .filter((value,
-        // index) => index === ind)
-        this.setState(preState => {
-            return {
-                loading: !preState.loading
+    handleTodoEdit = (text, key) => {
+        if (this.state.editing === true) {
+            const items = this.state.todoList;
+            items.map(item => {
+                if (item.key === key) {
+                    item.text = text;
+                }
+            })
+            this.setState({todoList: items})
+        }
+        this.setState({
+            currentItem: {
+                text: '',
+                key: ''
             }
         })
-        this.setState({list: newTodo.todo})
-
     };
 
-    handleTodoEdit = (val, ind) => {
-        confirmAlert({
-            title: 'Confirm to Edit',
-            message: `Are you sure to Edit this ${val}`,
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => this.handleEdit(val, ind)
-                }, {
-                    label: 'No',
-                    onClick: () => console.log('No clicked')
-                }
-            ]
-        });
-
+    handleEdit = () => {
+        this.setState(preState => {
+            return {
+                editing: !preState.editing
+            }
+        })
     }
 
     render() {
@@ -113,28 +107,21 @@ class TodoForm extends Component {
                     <div className='form-heading'>
                         <h2>Todo List</h2>
                     </div>
-                    <div className='input-button-box'>
+                    <div className='form-list'>
                         <input
                             className="todo-input"
                             type='text'
-                            value={this.state.todo}
+                            value={this.state.currentItem.text}
                             onChange={this.handleInputChange}
                             placeholder="Add Items"/>
                         <button className='todo-add-button' onClick={this.handleSubmit}>+</button>
                         <span className='error-message'>{this.state.errorMessage}</span>
                     </div>
-                    {this
-                        .state
-                        .todoList
-                        .map((value, index) => <TodoItem
-                            key={index}
-                            data={value}
-                            index={index}
-                            load={this.state}
-                            displayTodoList={this.displayTodoList}
-                            deleteTodo={this.handleDelete}
-                            editTodo={this.handleTodoEdit}/>)
-}
+                    <TodoItem
+                        todoList={this.state.todoList}
+                        deleteTodo={this.handleDelete}
+                        editTodo={this.handleTodoEdit}
+                        changeState={this.handleEdit}/>
                 </div>
             </div>
         )
