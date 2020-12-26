@@ -9,8 +9,8 @@ body {
 }
 
 .todo-form {
-    width: 30%;
-    height: 550px;
+    width: 330px;
+    min-height: 500px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 5%;
@@ -27,7 +27,7 @@ body {
     font-family: cursive;
 }
 
-.form-list {
+.item-list {
     width: 60%;
     margin-left: auto;
     margin-right: auto;
@@ -39,6 +39,7 @@ body {
     border-bottom: 3px solid rgb(179, 65, 179);
     margin-left: 10%;
     margin-right: 5%;
+    margin-bottom: 1%;
 }
 .todo-input:focus {
     outline: none;
@@ -80,7 +81,7 @@ body {
 }
 
 .todo-list-container {
-    width: 85%;
+    width: 75%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -115,4 +116,29 @@ input[type="checkbox"]:checked + .todo-input-list {
 .todo {
     background-color: red;
     margin: 10px;
+}
+
+.empty-message {
+    color: rgb(104, 0, 179);
+    width: 65%;
+    margin-top: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 22px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.fas {
+    color: green;
+    border: none;
+    zoom: 1.5;
+    cursor: pointer;
+}
+
+.far {
+    margin-right: 5%;
+    color: red;
+    border: none;
+    zoom: 1.5;
+    cursor: pointer;
 }

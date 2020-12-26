@@ -10,7 +10,7 @@ class TodoForm extends Component {
         this.state = {
             todoList: [],
             errorMessage: '',
-            editing: false,
+            isEditing: false,
             currentItem: {
                 text: '',
                 key: ''
@@ -43,27 +43,26 @@ class TodoForm extends Component {
             currentItem: {
                 text: event.target.value,
                 key: Date.now()
-            }
+            },
+            errorMessage: ''
         })
 
     }
 
-    handleTodoDelete = (key) => {
-        const newData = this
-            .state
-            .todoList
-            .filter(item => item.key !== key)
-        this.setState({todoList: newData})
-    }
-
-    handleDelete = (value, key) => {
+    handleItemDelete = (value, key) => {
         confirmAlert({
             title: 'Confirm to delete',
             message: `Are you sure to do this ${value}`,
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => this.handleTodoDelete(key)
+                    onClick: () => {
+                        const newData = this
+                            .state
+                            .todoList
+                            .filter(item => item.key !== key)
+                        this.setState({todoList: newData})
+                    }
                 }, {
                     label: 'No',
                     onClick: () => {}
@@ -72,16 +71,18 @@ class TodoForm extends Component {
         });
     }
 
-    handleTodoEdit = (text, key) => {
-        if (this.state.editing === true) {
+    handleItemEdit = (text, key) => {
+        if (this.state.isEditing === true) {
             const items = this.state.todoList;
             items.map(item => {
                 if (item.key === key) {
-                    item.text = text;
+                    return item.text = text;
                 }
             })
             this.setState({todoList: items})
+
         }
+
         this.setState({
             currentItem: {
                 text: '',
@@ -90,10 +91,10 @@ class TodoForm extends Component {
         })
     };
 
-    changeEditState = () => {
+    changeEditItemState = () => {
         this.setState(preState => {
             return {
-                editing: !preState.editing
+                isEditing: !preState.isEditing
             }
         })
     }
@@ -101,26 +102,26 @@ class TodoForm extends Component {
     render() {
         return (
             <div className='todo-container'>
-                <div className='todo-form' autoComplete='off'>
+                <form className='todo-form' onSubmit={this.handleTodoSubmit} autoComplete='off'>
                     <div className='form-heading'>
                         <h2>Todo List</h2>
                     </div>
-                    <div className='form-list'>
+                    <div className='item-list'>
                         <input
                             className="todo-input"
                             type='text'
                             value={this.state.currentItem.text}
                             onChange={this.handleInputChange}
-                            placeholder="Add Items"/>
-                        <button className='todo-add-button' onClick={this.handleTodoSubmit}>+</button>
+                            placeholder="Add Todo"/>
+                        <button className='todo-add-button'>+</button>
                         <span className='error-message'>{this.state.errorMessage}</span>
                     </div>
                     <TodoItem
                         todoList={this.state.todoList}
-                        deleteTodo={this.handleDelete}
-                        editTodo={this.handleTodoEdit}
-                        changeEditState={this.changeEditState}/>
-                </div>
+                        handleItemDelete={this.handleItemDelete}
+                        handleItemEdit={this.handleItemEdit}
+                        changeEditItemState={this.changeEditItemState}/>
+                </form>
             </div>
         )
     }
