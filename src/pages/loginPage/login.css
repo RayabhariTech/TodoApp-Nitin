@@ -1,0 +1,120 @@
+.login-container {
+    display: grid;
+    grid-template-columns: 400px auto;
+    grid-template-rows: 150px auto;
+    width: 735px;
+    min-height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgb(218, 213, 213);
+    margin-top: 50px;
+    border-radius: 8px;
+    box-shadow: 10px 10px 20px  #dadce0;
+}
+.form-login-heading {
+    margin-left: 40px;
+    margin-top: 40px;
+    font-size: 24px;
+    font-weight: 550;
+    font-family: Georgia, 'Times New Roman', Times, serif, Geneva, Tahoma, sans-serif;
+}
+.form-container {
+    grid-row: 2;
+    grid-column: 1/2;
+    align-items: center;
+}
+
+.login-form {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+}
+
+.input-box-position{
+    margin-bottom:20px;
+}
+
+.userInput-box,.password-box{
+    width: 80%;
+    display: block;
+    border-radius: 5px;
+    border:1px solid rgb(218, 213, 213);
+    padding: 10px 5px;
+}
+
+.login-input ,.login-password {
+    height: 15px;
+    width: 162px;
+    margin-left: auto;
+    border: transparent;
+    margin-right: auto;
+}
+.input-box-text{
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.login-input::placeholder ,.login-password::placeholder{
+    font-size: 15px;
+} 
+
+.login-input:focus ,.login-password:focus{
+    outline: none !important;
+} 
+
+.login-button {
+    padding: 8px 12px;
+    margin-left: 230px;
+    margin-top: 40px;
+    text-transform: uppercase;
+    color: white;
+    background-color: rgb(47, 47, 199);
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transform: translateX(-50%);
+    transition: all .2s;
+}
+
+.login-button:active {
+  transform: translate(-50%,5px);
+}
+
+
+.login-button:hover {
+    background-color: blue;
+}
+
+.login-button:focus {
+    outline: none;
+}
+
+.forgot-password-link{
+    color:blue;
+    font-size: 12px;
+    margin-left: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+.create-account-link
+{
+    color:blue;
+    font-size: 14px;
+    margin-left: 25px;
+    margin-top:125px ;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+.image-position{
+    margin-top: 120px;
+}
+
+.form-error-message
+{
+    font-size: 12px;
+    margin-left: 5px;
+    color: red;
+}
