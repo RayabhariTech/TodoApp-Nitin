@@ -37,9 +37,7 @@ body {
     width: 60%;
     border: none;
     border-bottom: 3px solid rgb(179, 65, 179);
-    margin-left: 10%;
-    margin-right: 5%;
-    margin-bottom: 1%;
+    margin: 0 5% 1% 10%;
 }
 .todo-input:focus {
     outline: none;
@@ -121,7 +119,7 @@ input[type="checkbox"]:checked + .todo-input-list {
 .empty-message {
     color: rgb(104, 0, 179);
     width: 65%;
-    margin-top: 30%;
+    margin-top: 35%;
     margin-right: auto;
     margin-left: auto;
     font-size: 22px;
