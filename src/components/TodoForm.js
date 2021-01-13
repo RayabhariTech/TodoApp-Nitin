@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import TodoItem from './TodoItem'
+import  './StyleTodo.css'
 import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
